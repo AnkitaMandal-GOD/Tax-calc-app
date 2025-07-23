@@ -71,10 +71,21 @@
   body {
     @apply font-sans antialiased text-foreground;
     background: 
-      linear-gradient(135deg, rgba(34, 197, 94, 0.03) 0%, transparent 25%),
-      linear-gradient(225deg, rgba(59, 130, 246, 0.03) 0%, transparent 25%),
-      linear-gradient(315deg, rgba(168, 85, 247, 0.02) 0%, transparent 25%),
-      linear-gradient(45deg, #f1f5f9 0%, #e2e8f0 50%, #f8fafc 100%);
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 20px,
+        rgba(226, 232, 240, 0.3) 20px,
+        rgba(226, 232, 240, 0.3) 21px
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 20px,
+        rgba(241, 245, 249, 0.4) 20px,
+        rgba(241, 245, 249, 0.4) 21px
+      ),
+      linear-gradient(to bottom, #ffffff, #f8fafc);
     background-attachment: fixed;
     position: relative;
     overflow-x: hidden;
