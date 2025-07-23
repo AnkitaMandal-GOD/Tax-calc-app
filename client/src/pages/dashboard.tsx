@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CreditCard, Download, FileText, Settings, User } from "lucide-react";
 import ExpenseForm from "@/components/expense-form";
 import ExpenseTable from "@/components/expense-table";
@@ -7,6 +8,7 @@ import DashboardStats from "@/components/dashboard-stats";
 import GoogleSheetsPanel from "@/components/google-sheets-panel";
 import TaxSummary from "@/components/tax-summary";
 import LoadingModal from "@/components/loading-modal";
+import SettingsPanel from "@/components/settings-panel";
 import { useState } from "react";
 
 export default function Dashboard() {
@@ -51,19 +53,56 @@ export default function Dashboard() {
           <DashboardStats />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Forms and Controls */}
-          <div className="lg:col-span-1 space-y-6">
-            <ExpenseForm onProcessingChange={setIsProcessing} />
-            <GoogleSheetsPanel />
-          </div>
+        {/* Main Content Tabs */}
+        <Tabs defaultValue="dashboard" className="w-full">
+          <TabsList className="grid w-full grid-cols-4 mb-6">
+            <TabsTrigger value="dashboard" className="flex items-center space-x-2">
+              <FileText className="w-4 h-4" />
+              <span>Dashboard</span>
+            </TabsTrigger>
+            <TabsTrigger value="expenses" className="flex items-center space-x-2">
+              <CreditCard className="w-4 h-4" />
+              <span>Expenses</span>
+            </TabsTrigger>
+            <TabsTrigger value="reports" className="flex items-center space-x-2">
+              <Download className="w-4 h-4" />
+              <span>Reports</span>
+            </TabsTrigger>
+            <TabsTrigger value="settings" className="flex items-center space-x-2">
+              <Settings className="w-4 h-4" />
+              <span>Settings</span>
+            </TabsTrigger>
+          </TabsList>
 
-          {/* Right Column - Data and Analytics */}
-          <div className="lg:col-span-2 space-y-6">
+          <TabsContent value="dashboard" className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Left Column - Forms and Controls */}
+              <div className="lg:col-span-1 space-y-6">
+                <ExpenseForm onProcessingChange={setIsProcessing} />
+                <GoogleSheetsPanel />
+              </div>
+
+              {/* Right Column - Data and Analytics */}
+              <div className="lg:col-span-2 space-y-6">
+                <ExpenseTable />
+                <TaxSummary />
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="expenses" className="space-y-6">
             <ExpenseTable />
+          </TabsContent>
+
+          <TabsContent value="reports" className="space-y-6">
             <TaxSummary />
-          </div>
-        </div>
+            <GoogleSheetsPanel />
+          </TabsContent>
+
+          <TabsContent value="settings" className="space-y-6">
+            <SettingsPanel />
+          </TabsContent>
+        </Tabs>
       </div>
 
       <LoadingModal isOpen={isProcessing} />

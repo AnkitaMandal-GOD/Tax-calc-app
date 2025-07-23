@@ -1,9 +1,22 @@
 import OpenAI from "openai";
 
 // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-const openai = new OpenAI({ 
-  apiKey: process.env.OPENAI_API_KEY
-});
+let openai: OpenAI;
+
+function getOpenAI() {
+  // Check for API key in environment first, then fallback to runtime config
+  const apiKey = process.env.OPENAI_API_KEY || (global as any).apiConfig?.openaiApiKey;
+  
+  if (!apiKey) {
+    throw new Error("OpenAI API key not configured. Please configure it in the settings panel.");
+  }
+
+  if (!openai || openai.apiKey !== apiKey) {
+    openai = new OpenAI({ apiKey });
+  }
+  
+  return openai;
+}
 
 export interface CategorySuggestion {
   category: string;
@@ -37,7 +50,7 @@ Available categories: Marketing, Office Supplies, Travel, Meals, Software, Educa
 
 The confidence score should be between 0 and 1, where 1 is completely certain.`;
 
-    const response = await openai.chat.completions.create({
+    const response = await getOpenAI().chat.completions.create({
       model: "gpt-4o",
       messages: [{ role: "user", content: prompt }],
       response_format: { type: "json_object" },
@@ -70,7 +83,7 @@ Available deductibility types: "Fully Deductible", "Partially Deductible", "Not 
 
 The confidence score should be between 0 and 1. Provide a brief reasoning for your classification.`;
 
-    const response = await openai.chat.completions.create({
+    const response = await getOpenAI().chat.completions.create({
       model: "gpt-4o",
       messages: [{ role: "user", content: prompt }],
       response_format: { type: "json_object" },
@@ -110,7 +123,7 @@ Respond with JSON in this exact format:
 
 Provide actionable insights about spending patterns, top deduction areas, and recommendations for better expense management.`;
 
-    const response = await openai.chat.completions.create({
+    const response = await getOpenAI().chat.completions.create({
       model: "gpt-4o",
       messages: [{ role: "user", content: prompt }],
       response_format: { type: "json_object" },

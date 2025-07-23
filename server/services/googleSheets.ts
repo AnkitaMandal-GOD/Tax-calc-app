@@ -13,23 +13,40 @@ export class GoogleSheetsService {
   private config: GoogleSheetsConfig;
 
   constructor() {
-    // Initialize with service account credentials or OAuth
-    this.auth = new google.auth.GoogleAuth({
-      credentials: {
-        client_email: process.env.GOOGLE_CLIENT_EMAIL,
-        private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-      },
-      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-    });
-
+    // Initialize with default configuration
     this.config = {
-      spreadsheetId: process.env.GOOGLE_SHEETS_ID || '',
+      spreadsheetId: '',
       range: 'Sheet1!A:F', // Date, Vendor, Amount, Description, Category, Deductibility
     };
   }
 
+  private getCredentials() {
+    // Check for credentials in environment first, then fallback to runtime config
+    const clientEmail = process.env.GOOGLE_CLIENT_EMAIL || (global as any).apiConfig?.googleClientEmail;
+    const privateKey = (process.env.GOOGLE_PRIVATE_KEY || (global as any).apiConfig?.googlePrivateKey)?.replace(/\\n/g, '\n');
+    const spreadsheetId = process.env.GOOGLE_SHEETS_ID || (global as any).apiConfig?.googleSheetsId;
+
+    if (!clientEmail || !privateKey || !spreadsheetId) {
+      throw new Error("Google Sheets credentials not configured. Please configure them in the settings panel.");
+    }
+
+    this.config.spreadsheetId = spreadsheetId;
+    
+    // Create auth for this request
+    this.auth = new google.auth.GoogleAuth({
+      credentials: {
+        client_email: clientEmail,
+        private_key: privateKey,
+      },
+      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+    });
+
+    return { clientEmail, privateKey, spreadsheetId };
+  }
+
   async readExpenses(): Promise<InsertExpense[]> {
     try {
+      this.getCredentials();
       const authClient = await this.auth.getClient();
       const response = await sheets.spreadsheets.values.get({
         auth: authClient,
@@ -57,6 +74,7 @@ export class GoogleSheetsService {
 
   async writeExpenses(expenses: Expense[]): Promise<void> {
     try {
+      this.getCredentials();
       const authClient = await this.auth.getClient();
       
       // Prepare data with headers
@@ -87,6 +105,7 @@ export class GoogleSheetsService {
 
   async appendExpense(expense: Expense): Promise<void> {
     try {
+      this.getCredentials();
       const authClient = await this.auth.getClient();
       
       const values = [[
@@ -113,6 +132,7 @@ export class GoogleSheetsService {
 
   async testConnection(): Promise<boolean> {
     try {
+      this.getCredentials();
       const authClient = await this.auth.getClient();
       await sheets.spreadsheets.get({
         auth: authClient,

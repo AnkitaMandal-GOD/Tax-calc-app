@@ -256,6 +256,88 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // API Configuration endpoints
+  let apiConfig = {
+    openaiApiKey: process.env.OPENAI_API_KEY || "",
+    googleClientEmail: process.env.GOOGLE_CLIENT_EMAIL || "",
+    googlePrivateKey: process.env.GOOGLE_PRIVATE_KEY || "",
+    googleSheetsId: process.env.GOOGLE_SHEETS_ID || "",
+  };
+
+  // Make configuration available globally
+  (global as any).apiConfig = apiConfig;
+
+  app.post("/api/connections/configure", async (req, res) => {
+    try {
+      const { openaiApiKey, googleClientEmail, googlePrivateKey, googleSheetsId } = req.body;
+      
+      // Update in-memory configuration
+      if (openaiApiKey) apiConfig.openaiApiKey = openaiApiKey;
+      if (googleClientEmail) apiConfig.googleClientEmail = googleClientEmail;
+      if (googlePrivateKey) apiConfig.googlePrivateKey = googlePrivateKey;
+      if (googleSheetsId) apiConfig.googleSheetsId = googleSheetsId;
+
+      // Update global configuration
+      (global as any).apiConfig = apiConfig;
+
+      res.json({ message: "Configuration saved successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to save configuration" });
+    }
+  });
+
+  app.get("/api/connections/status", async (req, res) => {
+    try {
+      const openai = !!apiConfig.openaiApiKey;
+      const googleSheets = !!(apiConfig.googleClientEmail && apiConfig.googlePrivateKey && apiConfig.googleSheetsId);
+
+      res.json({
+        openai,
+        googleSheets
+      });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to check connection status" });
+    }
+  });
+
+  app.post("/api/connections/test/:service", async (req, res) => {
+    try {
+      const { service } = req.params;
+
+      if (service === "openai") {
+        if (!apiConfig.openaiApiKey) {
+          return res.json({ success: false, error: "OpenAI API key not configured" });
+        }
+
+        try {
+          // Test OpenAI connection with a simple API call
+          const { categorizeExpense } = await import("./services/openai");
+          await categorizeExpense("Test expense", "Test vendor", "10.00");
+          res.json({ success: true });
+        } catch (error: any) {
+          res.json({ success: false, error: error.message });
+        }
+      } else if (service === "googlesheets") {
+        if (!apiConfig.googleClientEmail || !apiConfig.googlePrivateKey || !apiConfig.googleSheetsId) {
+          return res.json({ success: false, error: "Google Sheets credentials not fully configured" });
+        }
+
+        try {
+          // Test Google Sheets connection
+          const { googleSheetsService } = await import("./services/googleSheets");
+          const connected = await googleSheetsService.testConnection();
+          res.json({ success: connected });
+        } catch (error: any) {
+          res.json({ success: false, error: error.message });
+        }
+      } else {
+        res.status(400).json({ success: false, error: "Invalid service" });
+      }
+    } catch (error: any) {
+      res.status(500).json({ success: false, error: error.message });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
