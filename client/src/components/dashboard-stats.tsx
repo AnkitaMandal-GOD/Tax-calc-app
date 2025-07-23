@@ -1,3 +1,4 @@
+import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { BarChart3, DollarSign, FileCheck, Lightbulb } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
