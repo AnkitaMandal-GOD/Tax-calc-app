@@ -69,7 +69,7 @@ export default function DashboardStats() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {statCards.map((stat, index) => (
-        <Card key={index} className="border border-gray-200">
+        <Card key={index} className="glass-card border-0 animate-slide-in" style={{animationDelay: `${index * 0.1}s`}}>
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div>

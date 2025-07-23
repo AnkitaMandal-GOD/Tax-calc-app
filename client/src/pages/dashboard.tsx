@@ -18,12 +18,16 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gray-50 relative">
       {/* Floating geometric elements */}
-      <div className="floating-element floating-circle" style={{top: '10%', left: '5%', animationDelay: '0s'}}></div>
-      <div className="floating-element floating-triangle" style={{top: '20%', right: '8%', animationDelay: '1s'}}></div>
-      <div className="floating-element floating-square" style={{top: '60%', left: '3%', animationDelay: '2s'}}></div>
-      <div className="floating-element floating-circle" style={{top: '70%', right: '5%', animationDelay: '1.5s', width: '40px', height: '40px'}}></div>
-      <div className="floating-element floating-triangle" style={{top: '40%', left: '8%', animationDelay: '0.5s'}}></div>
-      <div className="floating-element floating-square" style={{top: '80%', right: '10%', animationDelay: '2.5s', width: '30px', height: '30px'}}></div>
+      <div className="floating-element floating-circle" style={{top: '8%', left: '4%', animationDelay: '0s'}}></div>
+      <div className="floating-element floating-triangle" style={{top: '15%', right: '6%', animationDelay: '1s'}}></div>
+      <div className="floating-element floating-square" style={{top: '55%', left: '2%', animationDelay: '2s'}}></div>
+      <div className="floating-element floating-hexagon" style={{top: '25%', left: '12%', animationDelay: '3s'}}></div>
+      <div className="floating-element floating-circle" style={{top: '65%', right: '4%', animationDelay: '1.5s', width: '60px', height: '60px'}}></div>
+      <div className="floating-element floating-triangle" style={{top: '35%', left: '6%', animationDelay: '0.5s'}}></div>
+      <div className="floating-element floating-square" style={{top: '75%', right: '8%', animationDelay: '2.5s', width: '40px', height: '40px'}}></div>
+      <div className="floating-element floating-hexagon" style={{top: '85%', left: '15%', animationDelay: '4s'}}></div>
+      <div className="floating-element floating-circle" style={{top: '45%', right: '12%', animationDelay: '3.5s', width: '45px', height: '45px'}}></div>
+      <div className="floating-element floating-triangle" style={{top: '5%', left: '20%', animationDelay: '1.8s'}}></div>
 
       {/* Header Navigation */}
       <header className="bg-white shadow-sm border-b border-gray-200">
