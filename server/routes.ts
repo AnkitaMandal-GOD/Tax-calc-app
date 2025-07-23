@@ -256,12 +256,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // API Configuration endpoints
+  // API Configuration endpoints - only use user-provided credentials
   let apiConfig = {
-    openaiApiKey: process.env.OPENAI_API_KEY || "",
-    googleClientEmail: process.env.GOOGLE_CLIENT_EMAIL || "",
-    googlePrivateKey: process.env.GOOGLE_PRIVATE_KEY || "",
-    googleSheetsId: process.env.GOOGLE_SHEETS_ID || "",
+    openaiApiKey: "",
+    googleClientEmail: "",
+    googlePrivateKey: "",
+    googleSheetsId: "",
   };
 
   // Make configuration available globally

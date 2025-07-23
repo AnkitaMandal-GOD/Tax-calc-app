@@ -21,10 +21,10 @@ export class GoogleSheetsService {
   }
 
   private getCredentials() {
-    // Check for credentials in environment first, then fallback to runtime config
-    const clientEmail = process.env.GOOGLE_CLIENT_EMAIL || (global as any).apiConfig?.googleClientEmail;
-    const privateKey = (process.env.GOOGLE_PRIVATE_KEY || (global as any).apiConfig?.googlePrivateKey)?.replace(/\\n/g, '\n');
-    const spreadsheetId = process.env.GOOGLE_SHEETS_ID || (global as any).apiConfig?.googleSheetsId;
+    // Only use user-provided credentials from settings panel
+    const clientEmail = (global as any).apiConfig?.googleClientEmail;
+    const privateKey = (global as any).apiConfig?.googlePrivateKey?.replace(/\\n/g, '\n');
+    const spreadsheetId = (global as any).apiConfig?.googleSheetsId;
 
     if (!clientEmail || !privateKey || !spreadsheetId) {
       throw new Error("Google Sheets credentials not configured. Please configure them in the settings panel.");

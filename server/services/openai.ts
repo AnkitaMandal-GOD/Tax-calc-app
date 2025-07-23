@@ -4,8 +4,8 @@ import OpenAI from "openai";
 let openai: OpenAI;
 
 function getOpenAI() {
-  // Check for API key in environment first, then fallback to runtime config
-  const apiKey = process.env.OPENAI_API_KEY || (global as any).apiConfig?.openaiApiKey;
+  // Only use user-provided API key from settings panel
+  const apiKey = (global as any).apiConfig?.openaiApiKey;
   
   if (!apiKey) {
     throw new Error("OpenAI API key not configured. Please configure it in the settings panel.");

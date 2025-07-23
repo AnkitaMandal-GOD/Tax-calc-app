@@ -63,9 +63,14 @@ The UI follows a component-based architecture using shadcn/ui components with:
 ## External Dependencies
 
 ### APIs and Services
-- **OpenAI API**: For AI-powered expense categorization and analysis
-- **Google Sheets API**: For bidirectional data synchronization
+- **OpenAI API**: For AI-powered expense categorization and analysis (user-configured via settings panel)
+- **Google Sheets API**: For bidirectional data synchronization (user-configured via settings panel)
 - **Neon Database**: PostgreSQL hosting service for production data storage
+
+### Security and Configuration
+- **API Key Management**: All external API credentials are configured by users through the in-app settings panel
+- **No Environment Variables**: The application does not rely on pre-configured environment variables for API access
+- **Runtime Configuration**: All API connections are established using user-provided credentials stored securely in session
 
 ### Development Tools
 - **Drizzle Kit**: Database schema management and migrations
