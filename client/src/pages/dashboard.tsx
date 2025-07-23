@@ -16,7 +16,15 @@ export default function Dashboard() {
   const [isProcessing, setIsProcessing] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 relative">
+      {/* Floating geometric elements */}
+      <div className="floating-element floating-circle" style={{top: '10%', left: '5%', animationDelay: '0s'}}></div>
+      <div className="floating-element floating-triangle" style={{top: '20%', right: '8%', animationDelay: '1s'}}></div>
+      <div className="floating-element floating-square" style={{top: '60%', left: '3%', animationDelay: '2s'}}></div>
+      <div className="floating-element floating-circle" style={{top: '70%', right: '5%', animationDelay: '1.5s', width: '40px', height: '40px'}}></div>
+      <div className="floating-element floating-triangle" style={{top: '40%', left: '8%', animationDelay: '0.5s'}}></div>
+      <div className="floating-element floating-square" style={{top: '80%', right: '10%', animationDelay: '2.5s', width: '30px', height: '30px'}}></div>
+
       {/* Header Navigation */}
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -30,7 +38,7 @@ export default function Dashboard() {
                 <p className="text-xs text-gray-500">Smart Business Expense Management</p>
               </div>
             </div>
-            
+
             <nav className="hidden md:flex items-center space-x-6">
               <a href="#dashboard" className="text-gray-600 hover:text-primary transition-colors">Dashboard</a>
               <a href="#expenses" className="text-gray-600 hover:text-primary transition-colors">Expenses</a>
@@ -48,9 +56,9 @@ export default function Dashboard() {
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
         {/* Dashboard Overview */}
-        <div className="mb-8">
+        <div className="animate-slide-in">
           <DashboardStats />
         </div>
 
@@ -79,29 +87,45 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Left Column - Forms and Controls */}
               <div className="lg:col-span-1 space-y-6">
-                <ExpenseForm onProcessingChange={setIsProcessing} />
-                <GoogleSheetsPanel />
+                 <div className="animate-slide-in" style={{animationDelay: '0.1s'}}>
+                  <ExpenseForm onProcessingChange={setIsProcessing} />
+                </div>
+                <div className="animate-slide-in" style={{animationDelay: '0.4s'}}>
+                  <GoogleSheetsPanel />
+                </div>
               </div>
 
               {/* Right Column - Data and Analytics */}
               <div className="lg:col-span-2 space-y-6">
-                <ExpenseTable />
-                <TaxSummary />
+                <div className="animate-slide-in" style={{animationDelay: '0.2s'}}>
+                  <ExpenseTable />
+                </div>
+                <div className="animate-slide-in" style={{animationDelay: '0.3s'}}>
+                  <TaxSummary />
+                </div>
               </div>
             </div>
           </TabsContent>
 
           <TabsContent value="expenses" className="space-y-6">
-            <ExpenseTable />
+             <div className="animate-slide-in" style={{animationDelay: '0.2s'}}>
+              <ExpenseTable />
+            </div>
           </TabsContent>
 
           <TabsContent value="reports" className="space-y-6">
-            <TaxSummary />
-            <GoogleSheetsPanel />
+            <div className="animate-slide-in" style={{animationDelay: '0.3s'}}>
+              <TaxSummary />
+            </div>
+            <div className="animate-slide-in" style={{animationDelay: '0.4s'}}>
+              <GoogleSheetsPanel />
+            </div>
           </TabsContent>
 
           <TabsContent value="settings" className="space-y-6">
-            <SettingsPanel />
+             <div className="animate-slide-in" style={{animationDelay: '0.5s'}}>
+              <SettingsPanel />
+            </div>
           </TabsContent>
         </Tabs>
       </div>
