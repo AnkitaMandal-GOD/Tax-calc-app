@@ -1,0 +1,51 @@
+Create a modern, professional-looking web app called "TaxFlow AI" that helps small business owners and freelancers automate their bookkeeping and tax categorization.
+
+💻 Tech Stack:
+- HTML + Tailwind CSS for clean, responsive UI
+- JavaScript (Vanilla or React, your choice)
+- Backend using Node.js or Express.js
+- Google Sheets API integration
+- OpenAI API integration
+
+🎨 Design Requirements:
+- Modern, clean layout with light grey/white background, black text, green/grey accents
+- Smooth animations and section transitions
+- Responsive design for both desktop and mobile
+- UI should be friendly but professional: rounded corners, cards, soft shadows, subtle feedback colors (red/yellow warnings, green confirmations)
+
+📋 Features:
+1. **Upload/Import Expenses:**
+   - Simple UI form to manually input or upload expenses
+   - Alternatively, connect to a Google Sheet that auto-syncs expense data (sheet structure: Date, Vendor, Amount, Description)
+
+2. **AI Expense Categorizer:**
+   - Use OpenAI API to automatically suggest a category for each expense (e.g. “Marketing,” “Office Supplies,” “Travel”)
+   - Option for user to approve/edit the AI-suggested category
+   - Output updates back into Google Sheet with final category column
+
+3. **Smart Tax Write-Off Checker:**
+   - Add a button that lets the user scan expenses for potential tax write-offs
+   - Uses AI to flag expenses as "Likely Deductible", "Maybe Deductible", or "Not Deductible"
+   - Results shown in a summary dashboard and also written to a new column in the Google Sheet
+
+4. **Prompt Chains for AI Backend:**
+   - Categorization Prompt:
+     “You are a business expense classification assistant. Based on the following description, suggest the most accurate category for tax bookkeeping purposes. Respond with one of the following: Marketing, Office Supplies, Travel, Meals, Software, Education, Other. Description: [description]”
+   - Deduction Flag Prompt:
+     “Classify this expense based on its deductibility: Fully deductible, Partially deductible, Not deductible. Description: [description]”
+   - Summary Insight Prompt:
+     “Based on the list of categorized and deductible expenses, generate a one-paragraph summary that helps the business owner understand their top spending categories and biggest deduction areas.”
+
+🔗 Integrations:
+- Authenticate with Google Sheets API to read/write user expense data
+- Use environment variables for API keys securely (e.g., `.env` for OpenAI and Google credentials)
+
+🚀 Optional Enhancements:
+- Export categorized data as CSV
+- Add tooltip explanations for each category
+- Add a chatbot sidebar for help & tips powered by OpenAI
+
+🧪 Final Deliverable:
+The app should be fully functional and visually polished. Prioritize a clean code structure, reusable components, and easy user flow. Ensure you include error handling for failed API calls and user-friendly feedback messages.
+
+This will be used in a freelancer’s portfolio, so make sure the UI and codebase are impressive, practical, and client-ready.
